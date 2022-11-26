@@ -7,11 +7,35 @@ typedef struct {
 	int burst_time;
 } process;
 
-process* sortByArrival(process* arr, int n, int total_time)
+void swap(process* x, process* y)
 {
+    process temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+process* sortByArrival(process* arr, int n)
+{
+    //Copy arr contents to another array named routing.
     process* routing;
-    routing = malloc(total_time*sizeof(process));
-    
+    routing = malloc(n*sizeof(process));
+    for (int i=0;i<n;i++)
+    {
+        routing[i].pid = arr[i].pid;
+        routing[i].arrival_time = arr[i].arrival_time;
+        routing[i].burst_time = arr[i].burst_time;
+    }
+    //Bubble sort by arrival time the routing array.
+    for (int i=0;i<n;i++)
+    {
+        for (int j=0;j<n-i;j++)
+        {
+            if (routing[j].arrival_time > routing[j+1].arrival_time)
+            {
+                swap(&routing[j],&routing[j+1]);
+            }
+        }
+    }
     return routing;
 }
 
@@ -39,11 +63,11 @@ int main() {
     {
         total_time += arr[i].burst_time;
     }
-    process *routing=malloc(total_time*sizeof(process));
-    routing = sortByArrival(arr,n,total_time);
-    for (int i=0;i<total_time;i++)
+    process *routing=malloc(n*sizeof(process));
+    routing = sortByArrival(arr,n);
+    for (int i=0;i<n;i++)
     {
-
+        printf("%d - %d - %d\n",routing[i].pid, routing[i].arrival_time, routing[i].burst_time);
     }
 	return 0; /* DO NOT EDIT THIS LINE */
 }
