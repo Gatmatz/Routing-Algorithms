@@ -7,18 +7,22 @@ typedef struct {
 	int burst_time;
 } process;
 
+//Decide the next process based on SJF Non-Preemptive.
 int find_min(int n, process* routing, int time)
 {
-    int min = 100000;
-    int min_id = 0;
+    int min = 100000; //Min variable that stores the minimum burst time.
+    int min_id = 0; //Min_id variable that stores the id number of minimum burst time.
     for (int i=0;i<n;i++)
     {
+        //If process has the minimum burst time, and it is not finished(burst_time>0), and it has arrived(arrival_time<=time)
         if (routing[i].burst_time<min && routing[i].burst_time>0 && routing[i].arrival_time<=time)
         {
+            //Choose the i-th process.
             min = routing[i].burst_time;
             min_id = i;
         }
     }
+    //Return the desired process based on SJF Non-Preemptive
     return min_id;
 }
 
@@ -62,6 +66,7 @@ int main() {
         //If a process has ended.
         if (routing[pid_counter].burst_time == 0)
         {
+            //Decide next process to be executed by CPU.
             pid_counter = find_min(n,routing,i);
         }
         //Print the current process in CPU
