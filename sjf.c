@@ -7,6 +7,20 @@ typedef struct {
 	int burst_time;
 } process;
 
+int find_min(int n, process* routing, int time)
+{
+    int min = 100000;
+    int min_id = 0;
+    for (int i=0;i<n;i++)
+    {
+        if (routing[i].burst_time<min && routing[i].burst_time>0 && routing[i].arrival_time<=time)
+        {
+            min = routing[i].burst_time;
+            min_id = i;
+        }
+    }
+    return min_id;
+}
 
 int main() {
 
@@ -24,8 +38,37 @@ int main() {
 	}
 	/* read in data - DO NOT EDIT (END) */
 
+    //Calculate total burst time for all processes.
+    int total_time=0;
+    for (int i=0;i<n;i++)
+    {
+        total_time += arr[i].burst_time;
+    }
 
+    //Copy processes data to a new array named routing for data integrity.
+    process *routing;
+    routing = malloc(n*sizeof(process));
+    for (int i=0;i<n;i++)
+    {
+        routing[i].pid = arr[i].pid;
+        routing[i].arrival_time = arr[i].arrival_time;
+        routing[i].burst_time = arr[i].burst_time;
+    }
 
+    // FJS - Shortest Job First Non-Preemptive
+    int pid_counter = 0; //Counter that keeps track of the current process in CPU
+    for (int i=0;i<total_time;i++)
+    {
+        //If a process has ended.
+        if (routing[pid_counter].burst_time == 0)
+        {
+            pid_counter = find_min(n,routing,i);
+        }
+        //Print the current process in CPU
+        printf("%d\n",routing[pid_counter].pid);
+        //Decrease by one burst time of current process in CPU
+        routing[pid_counter].burst_time--;
+    }
 
 	return 0; /* DO NOT EDIT THIS LINE */
 }
