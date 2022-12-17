@@ -23,41 +23,10 @@ void enqueue(process* p)
 }
 
 /*
- * Secondary function for swapping places in two processes.
- */
-void swapProcesses(process* x, process* y)
-{
-    process temp = *x;
-    *x = *y;
-    *y = temp;
-}
-
-/*
- * Bubble Sort algorithm that sorts all elements of the queue except the first element(the process that is currently
- * executed by the CPU).
- */
-void sortbyBurst(process* arr[], int n)
-{
-    //Bubble sort by burst time the routing array.
-    for (int i=1;i<n;i++)
-    {
-        for (int j=1;j<n-i;j++)
-        {
-            if (arr[j]->burst_time > arr[j+1]->burst_time)
-            {
-                swapProcesses(arr[j],arr[j+1]);
-            }
-        }
-    }
-}
-
-/*
  * Round Robin routing algorithm.
  */
 void roundRobin()
 {
-    //Sort the queue except the first element(the process that is currently executed).
-    sortbyBurst(queue,tail);
     //If current process hasn't ended (quantum expired)
     if (queue[0]->burst_time > 0)
     {
