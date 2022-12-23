@@ -92,7 +92,7 @@ int main() {
     for (int i=0;i<total_time;i++)
     {
         //Check if any new processes have arrived.
-        if (i>0)
+        if (i>=0)
         {
             //Look if the current time is arrival time for any of the processes.
             for (int j=1;j<n;j++)
