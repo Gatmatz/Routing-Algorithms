@@ -64,8 +64,10 @@ int main() {
     for (int i=0;i<total_time;i++)
     {
         //Decide next process to be executed by CPU.
-        pid_counter = find_min(n,routing,i);
-
+        if (i != 0)
+        {
+            pid_counter = find_min(n,routing,i);
+        }
         //Print the current process in CPU
         printf("%d\n",routing[pid_counter].pid);
         //Decrease by one burst time of current process in CPU
